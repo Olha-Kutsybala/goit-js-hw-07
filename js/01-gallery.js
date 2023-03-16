@@ -6,7 +6,6 @@ const itemGallery = createGalleryItem(galleryItems);
 
 galleryContainer.insertAdjacentHTML("beforeend", itemGallery);
 
-galleryContainer.addEventListener('click', onGalleryContainerClick)
 
 function createGalleryItem(items) {
     return galleryItems.map(({ preview, original, description }) => {
@@ -30,7 +29,21 @@ function onGalleryContainerClick(e) {
   };
   const instance = basicLightbox.create(`
     <img src="${e.target.dataset.source}" width="800" height="600">
-`)
+`, {
+    onShow: (instance) => {
+      window.addEventListener("keydown", onEscKeyDown)
+    },
+
+    onClose: (instance) => {
+      window.removeEventListener("keydown", onEscKeyDown)
+    }
+  })
+  
+  function onEscKeyDown (e) {
+    if (e.code === "Escape") {
+  instance.close()
+}
+  }
   instance.show();
 }
 
