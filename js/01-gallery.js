@@ -24,9 +24,14 @@ function createGalleryItem(items) {
 }
 
 function onGalleryContainerClick(e) {
-    if (!e.target.classlist.contains('gallery__link')) {
-        return
-    }
-    return galleryItems.original;
+  e.preventDefault();
+  if (!e.target.classList.contains("gallery__image")) {
+    return;
+  };
+  const instance = basicLightbox.create(`
+    <img src="${e.target.dataset.source}" width="800" height="600">
+`)
+  instance.show();
 }
-  
+
+
